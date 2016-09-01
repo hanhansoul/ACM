@@ -21,6 +21,7 @@
 #include <climits>
 
 using namespace std;
+#define LL long long
 
 int N, M;
 int E[20][20], C[20];
@@ -40,18 +41,19 @@ void init()
 				en = i, em = j;
 			}
 	}
-	C[0] = 1;
-	for (int i = 1; i <= 20; i++)
-		C[i] = C[i - 1] << 1;
+	C[0] = 0;
+	for (int i = 1; i <= 18; i++)
+		C[i] = i << 1;
 	return;
 }
-int t, ans;
-map<int, int> S[2];
-map<int, int>::iterator it;
-void Hash(int m, int s)
+int t;
+LL ans;
+map<int, LL> S[2];
+map<int, LL>::iterator it;
+void Hash(int m, LL s)
 {
-    if(S[t].count(m)) S[t][m] += s;
-    else S[t][m] = s;
+	if (S[t].count(m)) S[t][m] += s;
+	else S[t][m] = s;
 }
 void solve()
 {
@@ -60,7 +62,7 @@ void solve()
 	int tm;
 	Hash(0, 1);
 	for (int i = 1; i <= N; i++)
-    {
+	{
 		for (int j = 1; j <= M; j++)
 		{
 			t = 1 - t;
@@ -68,15 +70,15 @@ void solve()
 			for (it = S[1 - t].begin(); it != S[1 - t].end(); it++)
 			{
 				int m = it->first;
-				int s = it->second;
+				LL s = it->second;
 				int p = (m >> C[j - 1]) % 4;
 				int q = (m >> C[j]) % 4;
-				if(j == 1)
-                {
-                    p = (m << 2 >> C[j - 1]) % 4;
-                    q = (m << 2 >> C[j]) % 4;
-                }
-                cout << m << " " << s << endl;
+				if (j == 1)
+				{
+                    m <<= 2;
+					p = (m >> C[j - 1]) % 4;
+					q = (m >> C[j]) % 4;
+				}
 				if (!E[i][j])
 				{
 					if (p == 0 && q == 0) Hash(m, s);
@@ -94,7 +96,8 @@ void solve()
 					}
 					if (p == 0 && q > 0)
 					{
-						if (E[i][j + 1]) Hash(tm, s);
+						if (E[i][j + 1]) 
+                            Hash(m, s);
 						if (E[i + 1][j])
 						{
 							tm = m - q * (1 << C[j]) + q * (1 << C[j - 1]);
@@ -104,7 +107,8 @@ void solve()
 					}
 					if (p > 0 && q == 0)
 					{
-						if (E[i + 1][j]) Hash(tm, s);
+						if (E[i + 1][j]) 
+                            Hash(m, s);
 						if (E[i][j + 1])
 						{
 							tm = m - p * (1 << C[j - 1]) + p * (1 << C[j]);
@@ -162,14 +166,14 @@ void solve()
 				}
 			}
 		}
-		cout << endl;
-    }
+	}
 }
 int main()
 {
-	freopen("input.txt", "r", stdin);
+	// freopen("input.txt", "r", stdin);
 	init();
 	solve();
-	printf("%d\n", ans);
+	printf("%lld\n", ans);
 	return 0;
 }
+
