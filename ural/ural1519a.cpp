@@ -79,7 +79,6 @@ void work()
 	sum[0][1] = 1;
 	for (int i = 1; i <= n; i++)
 	{
-	    cout << endl;
 		for (int j = 1; j <= m; j++)
 		{
 			k ^= 1;                             //滚动
@@ -93,7 +92,6 @@ void work()
 				int data = sum[1 - k][u];       //到达前一格该状态下的方案总数
 				int p = (s >> jz[j - 1]) % 4;   //取第j-1位的括号
 				int q = (s >> jz[j]) % 4;       //取第j位的括号
-				cout << s << " " << data << endl;
 				if (!a[i][j])                   //如果不能覆盖线段
 				{
 					if (p == 0 && q == 0) Hash_in(s, data); //如果连线可以绕开障碍，则新增该状态。
