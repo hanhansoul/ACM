@@ -90,7 +90,7 @@ int eval()
 		else
 		{
 			int x1, x2;
-			if (t == '|')
+			if (G.size() >= 2 && t == '|')
 			{
 				x1 = G.top();
 				G.pop();
@@ -98,7 +98,7 @@ int eval()
 				G.pop();
 				G.push(x1 | x2);
 			}
-			else if (t == '&')
+			else if (G.size() >= 2 && t == '&')
 			{
 				x1 = G.top();
 				G.pop();
@@ -106,7 +106,7 @@ int eval()
 				G.pop();
 				G.push(x1 & x2);
 			}
-			else if (t == '!')
+			else if (G.size() >= 1 && t == '!')
 			{
 				x1 = G.top();
 				G.pop();
@@ -114,7 +114,8 @@ int eval()
 			}
 		}
 	}
-	return G.top();
+	if(!G.empty()) return G.top();
+	else return 0;
 }
 
 int dd[4][2] = {{1, 0}, {0, 1}, { -1, 0}, {0, -1}};
